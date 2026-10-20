@@ -5,6 +5,14 @@
   "version": "0.1.0",
   "publisher": "local",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/machine202502/vscode-custom-dictation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/machine202502/vscode-custom-dictation/issues"
+  },
+  "homepage": "https://github.com/machine202502/vscode-custom-dictation#readme",
   "engines": {
     "vscode": "^1.95.0"
   },
