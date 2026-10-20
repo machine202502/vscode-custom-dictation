@@ -1,0 +1,445 @@
+{
+  "name": "custom-dictation",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Accessibility"
+  ],
+  "keywords": [
+    "dictation",
+    "speech-to-text",
+    "stt",
+    "whisper",
+    "gigachat",
+    "saluteSpeech",
+    "russian"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./out/extension.js",
+  "l10n": "./l10n",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "enabledApiProposals": [
+    "speech"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "customDictation.toggle",
+        "title": "%command.toggle.title%",
+        "category": "Custom Dictation",
+        "icon": "$(mic)"
+      },
+      {
+        "command": "customDictation.start",
+        "title": "%command.start.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.stop",
+        "title": "%command.stop.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.stopAndCopy",
+        "title": "%command.stopAndCopy.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.showControls",
+        "title": "%command.showControls.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.cancel",
+        "title": "%command.cancel.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.selectProvider",
+        "title": "%command.selectProvider.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.selectMicrophone",
+        "title": "%command.selectMicrophone.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.selectLocalModel",
+        "title": "%command.selectLocalModel.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.selectOnnxModel",
+        "title": "%command.selectOnnxModel.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.setApiKey",
+        "title": "%command.setApiKey.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.setSaluteCredentials",
+        "title": "%command.setSaluteCredentials.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.diagnostics",
+        "title": "%command.diagnostics.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.showLog",
+        "title": "%command.showLog.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.registerSpeechProvider",
+        "title": "%command.registerSpeechProvider.title%",
+        "category": "Custom Dictation"
+      },
+      {
+        "command": "customDictation.toggleBuiltinMic",
+        "title": "%command.toggleBuiltinMic.title%",
+        "category": "Custom Dictation"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "customDictation.toggle",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d",
+        "when": "!inDebugRepl"
+      },
+      {
+        "command": "customDictation.cancel",
+        "key": "ctrl+alt+shift+d",
+        "mac": "cmd+alt+shift+d",
+        "when": "!inDebugRepl"
+      },
+      {
+        "command": "customDictation.stopAndCopy",
+        "key": "ctrl+alt+shift+c",
+        "mac": "cmd+alt+shift+c",
+        "when": "!inDebugRepl"
+      }
+    ],
+    "speechProviders": [
+      {
+        "name": "custom-dictation",
+        "description": "Custom Dictation (local Whisper / GigaAM / SaluteSpeech / OpenAI-compatible)"
+      }
+    ],
+    "configuration": {
+      "title": "Custom Dictation",
+      "properties": {
+        "customDictation.provider": {
+          "type": "string",
+          "enum": [
+            "openai-compatible",
+            "local-whisper",
+            "local-onnx",
+            "salute",
+            "command"
+          ],
+          "enumDescriptions": [
+            "%config.provider.enum.0%",
+            "%config.provider.enum.1%",
+            "%config.provider.enum.2%",
+            "%config.provider.enum.3%",
+            "%config.provider.enum.4%"
+          ],
+          "default": "openai-compatible",
+          "markdownDescription": "%config.provider.markdownDescription%"
+        },
+        "customDictation.language": {
+          "type": "string",
+          "default": "auto",
+          "markdownDescription": "%config.language.markdownDescription%"
+        },
+        "customDictation.insert.target": {
+          "type": "string",
+          "enum": [
+            "chat",
+            "editor",
+            "clipboard"
+          ],
+          "enumDescriptions": [
+            "%config.insert.target.enum.0%",
+            "%config.insert.target.enum.1%",
+            "%config.insert.target.enum.2%"
+          ],
+          "default": "chat"
+        },
+        "customDictation.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.statusBar.enabled.markdownDescription%"
+        },
+        "customDictation.chatMic.hideBuiltin": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.chatMic.hideBuiltin.markdownDescription%"
+        },
+        "customDictation.chatMic.runInAgentsWindow": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.chatMic.runInAgentsWindow.markdownDescription%"
+        },
+        "customDictation.panel.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.panel.enabled.markdownDescription%"
+        },
+        "customDictation.controls": {
+          "type": "string",
+          "enum": [
+            "toast",
+            "panel",
+            "none"
+          ],
+          "enumDescriptions": [
+            "%config.controls.enum.0%",
+            "%config.controls.enum.1%",
+            "%config.controls.enum.2%"
+          ],
+          "default": "toast",
+          "markdownDescription": "%config.controls.markdownDescription%"
+        },
+        "customDictation.insert.chatMode": {
+          "type": "string",
+          "enum": [
+            "paste",
+            "replace"
+          ],
+          "enumDescriptions": [
+            "%config.insert.chatMode.enum.0%",
+            "%config.insert.chatMode.enum.1%"
+          ],
+          "default": "paste"
+        },
+        "customDictation.insert.fallbackToClipboard": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.insert.fallbackToClipboard.markdownDescription%"
+        },
+        "customDictation.audio.ffmpegPath": {
+          "type": "string",
+          "default": "ffmpeg",
+          "markdownDescription": "%config.audio.ffmpegPath.markdownDescription%"
+        },
+        "customDictation.audio.inputFormat": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "dshow",
+            "avfoundation",
+            "pulse",
+            "alsa"
+          ],
+          "default": "auto",
+          "markdownDescription": "%config.audio.inputFormat.markdownDescription%"
+        },
+        "customDictation.audio.device": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.audio.device.markdownDescription%"
+        },
+        "customDictation.audio.cues.start": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.audio.cues.start.markdownDescription%"
+        },
+        "customDictation.audio.cues.end": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.audio.cues.end.markdownDescription%"
+        },
+        "customDictation.audio.cues.volume": {
+          "type": "number",
+          "default": 15,
+          "minimum": 0,
+          "maximum": 100,
+          "markdownDescription": "%config.audio.cues.volume.markdownDescription%"
+        },
+        "customDictation.audio.silenceMs": {
+          "type": "number",
+          "default": 600,
+          "minimum": 150,
+          "markdownDescription": "%config.audio.silenceMs.markdownDescription%"
+        },
+        "customDictation.audio.minSegmentMs": {
+          "type": "number",
+          "default": 400,
+          "minimum": 100,
+          "markdownDescription": "%config.audio.minSegmentMs.markdownDescription%"
+        },
+        "customDictation.audio.maxSegmentMs": {
+          "type": "number",
+          "default": 15000,
+          "minimum": 2000,
+          "markdownDescription": "%config.audio.maxSegmentMs.markdownDescription%"
+        },
+        "customDictation.audio.autoStopSilenceMs": {
+          "type": "number",
+          "default": 60000,
+          "minimum": 0,
+          "markdownDescription": "%config.audio.autoStopSilenceMs.markdownDescription%"
+        },
+        "customDictation.audio.noiseThreshold": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 0.5,
+          "markdownDescription": "%config.audio.noiseThreshold.markdownDescription%"
+        },
+        "customDictation.openai.baseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000/v1",
+          "markdownDescription": "%config.openai.baseUrl.markdownDescription%"
+        },
+        "customDictation.openai.model": {
+          "type": "string",
+          "default": "whisper-1",
+          "markdownDescription": "%config.openai.model.markdownDescription%"
+        },
+        "customDictation.openai.extraBody": {
+          "type": "object",
+          "default": {},
+          "markdownDescription": "%config.openai.extraBody.markdownDescription%"
+        },
+        "customDictation.openai.prompt": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.openai.prompt.markdownDescription%"
+        },
+        "customDictation.openai.sendContextPrompt": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.openai.sendContextPrompt.markdownDescription%"
+        },
+        "customDictation.openai.requestTimeoutMs": {
+          "type": "number",
+          "default": 60000,
+          "minimum": 1000
+        },
+        "customDictation.salute.tokenUrl": {
+          "type": "string",
+          "default": "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
+        },
+        "customDictation.salute.recognizeUrl": {
+          "type": "string",
+          "default": "https://smartspeech.sber.ru/rest/v1/speech:recognize"
+        },
+        "customDictation.salute.scope": {
+          "type": "string",
+          "default": "SALUTE_SPEECH_PERS"
+        },
+        "customDictation.salute.clientId": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.salute.clientId.markdownDescription%"
+        },
+        "customDictation.salute.insecureTLS": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.salute.insecureTLS.markdownDescription%"
+        },
+        "customDictation.command.capture": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.command.capture.markdownDescription%"
+        },
+        "customDictation.command.transcribe": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.command.transcribe.markdownDescription%"
+        },
+        "customDictation.local.modelPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.local.modelPath.markdownDescription%"
+        },
+        "customDictation.local.executablePath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.local.executablePath.markdownDescription%"
+        },
+        "customDictation.local.extraArgs": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.local.extraArgs.markdownDescription%"
+        },
+        "customDictation.onnx.modelPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.onnx.modelPath.markdownDescription%"
+        },
+        "customDictation.onnx.executablePath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.onnx.executablePath.markdownDescription%"
+        },
+        "customDictation.onnx.precision": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "int8",
+            "fp32"
+          ],
+          "default": "auto",
+          "markdownDescription": "%config.onnx.precision.markdownDescription%"
+        },
+        "customDictation.onnx.mode": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "server",
+            "cli"
+          ],
+          "default": "auto",
+          "enumDescriptions": [
+            "%config.onnx.mode.enum.0%",
+            "%config.onnx.mode.enum.1%",
+            "%config.onnx.mode.enum.2%"
+          ],
+          "markdownDescription": "%config.onnx.mode.markdownDescription%"
+        },
+        "customDictation.onnx.extraArgs": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.onnx.extraArgs.markdownDescription%"
+        },
+        "customDictation.speechProvider.enabled": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.speechProvider.enabled.markdownDescription%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p .",
+    "test": "npm run compile && node --test \"out/test/*.test.js\"",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.95.0",
+    "typescript": "^5.7.0"
+  }
+}
